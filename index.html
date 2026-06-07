@@ -1,76 +1,52 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portfolio Pro</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hansilaris Web App</title>
 
-<style>
-body{font-family:Arial;background:#0f172a;color:white;margin:0;padding:20px}
-h1{text-align:center}
-.card{max-width:500px;margin:10px auto;background:#1f2937;padding:15px;border-radius:12px}
-input,button{width:100%;padding:10px;margin:6px 0;border-radius:8px;border:none}
-button{background:#22c55e;color:white;font-weight:bold}
-.delete{background:#ef4444}
-.green{color:#22c55e}
-.red{color:#ef4444}
-</style>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            background-image: url('background.jpg'); /* Bild kommt später */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-color: #333; /* Fallback, falls kein Bild vorhanden */
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            text-align: center;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .block {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            margin-top: 40px;
+        }
+    </style>
 </head>
 
 <body>
 
-<h1>📊 Portfolio Pro</h1>
-
-<div class="card">
-<input id="name" placeholder="Aktie">
-<input id="buy" type="number" placeholder="Kaufpreis">
-<input id="amount" type="number" placeholder="Anzahl">
-<input id="current" type="number" placeholder="Aktueller Kurs">
-<button onclick="add()">Hinzufügen</button>
-</div>
-
-<div id="list"></div>
-
-<script>
-let data = JSON.parse(localStorage.getItem("data") || "[]");
-
-function save(){
-localStorage.setItem("data", JSON.stringify(data));
-}
-
-function add(){
-let n=name.value,b=+buy.value,a=+amount.value,c=+current.value;
-if(!n||!b||!a||!c)return alert("Fehlt was");
-data.push({n,b,a,c});
-save();render();
-}
-
-function del(i){
-data.splice(i,1);
-save();render();
-}
-
-function render(){
-list.innerHTML="";
-let total=0,invest=0;
-
-data.forEach((d,i)=>{
-let v=d.c*d.a;
-let iv=d.b*d.a;
-total+=v;invest+=iv;
-
-list.innerHTML+=`
-<div class="card">
-<b>${d.n}</b><br>
-Wert: ${v.toFixed(2)} €<br>
-Profit: <span class="${v-iv>=0?'green':'red'}">${(v-iv).toFixed(2)} €</span>
-<button class="delete" onclick="del(${i})">Löschen</button>
-</div>`;
-});
-}
-
-render();
-</script>
-
-</body>
-</html>
+<header>
+    <h1>Hansilaris Web App</h1>
+    <p>Will
