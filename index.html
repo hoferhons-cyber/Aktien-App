@@ -6,21 +6,22 @@
     <title>Hansilaris Web App</title>
 
     <style>
-        body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-image: url('background.png');
-    background-size: contain; /* zeigt das ganze Bild */
-    background-repeat: no-repeat;
-    background-position: top center;
-    background-color: #000; /* Hintergrundfarbe darunter */
-}
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
 
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('background.png'); /* dein Comic-Bild */
+            background-size: cover;                  /* Bild füllt den Bildschirm */
+            background-repeat: no-repeat;
+            background-position: center top;
+        }
 
         header {
-            background: transparent;
-            padding: 30px;
-            text-align: center;
+            height: 100vh;       /* Header = ganze Bildschirmhöhe */
         }
 
         main {
@@ -47,5 +48,18 @@
 
 <body>
 
-<header>
-    
+<header></header>
+
+<main>
+    <div class="block">
+        <h2>Willkommen</h2>
+        <p>Hier kannst du deinen Text einfügen.</p>
+    </div>
+</main>
+
+<footer>
+    © 2026 Hansilaris Web App
+</footer>
+
+</body>
+</html>
