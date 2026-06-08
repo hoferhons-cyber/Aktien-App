@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            background: linear-gradient(180deg, #061627 0%, #0f2540 55%, #08131f 100%);
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .page {
+            width: min(100%, 960px);
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: clamp(2rem, 3vw, 3.2rem);
+            letter-spacing: 0.05em;
+        }
+
+        .hero p {
+            margin: 12px auto 0;
+            max-width: 680px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 24px;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(18px);
+            overflow: hidden;
+        }
+
+        .card-content {
+            padding: 32px;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(120px, 1fr));
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+
+        .timer-button {
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            padding: 16px 0;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .timer-button:hover,
+        .timer-button.active {
+            background: rgba(255, 80, 80, 0.94);
+            border-color: rgba(255, 80, 80, 0.9);
+            transform: translateY(-2px);
+        }
+
+        .display {
+            display: grid;
+            gap: 12px;
+            justify-items: center;
+            margin-bottom: 28px;
+        }
+
+        .clock {
+            width: 100%;
+            max-width: 420px;
+            padding: 28px 24px;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            text-align: center;
+        }
+
+        .clock .time {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            letter-spacing: 0.16em;
+            margin: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .clock .status {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.75);
+            margin-top: 12px;
+        }
+
+        .footer-row {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .home-link,
+        .reset-button {
+            display: inline-block;
+            padding: 14px 22px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .home-link {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .home-link:hover {
+            transform: translateY(-1px);
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .reset-button {
+            border: 1px solid rgba(255, 80, 80, 0.9);
+            background: rgba(255, 80, 80, 0.12);
+            color: #ff8a8a;
+            cursor: pointer;
+        }
+
+        .reset-button:hover {
+            transform: translateY(-1px);
+            background: rgba(255, 80, 80, 0.18);
+        }
+
+        footer {
+            margin-top: 22px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 660px) {
+            .button-grid {
+                grid-template-columns: repeat(2, minmax(120px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <section class="hero">
+        <h1>Trainingstimer</h1>
+        <p>Wähle eine Dauer und starte den Countdown. Die digitale Uhr zeigt die verbleibende Zeit übersichtlich an.</p>
+    </section>
+
+    <section class="card">
+        <div class="card-content">
+            <div class="button-grid">
+                <button class="timer-button" data-minutes="5">5 Minuten</button>
+                <button class="timer-button" data-minutes="10">10 Minuten</button>
+                <button class="timer-button" data-minutes="15">15 Minuten</button>
+                <button class="timer-button" data-minutes="20">20 Minuten</button>
+                <button class="timer-button" data-minutes="30">30 Minuten</button>
+                <button class="timer-button" data-minutes="60">60 Minuten</button>
+                <button class="timer-button" data-minutes="90">90 Minuten</button>
+            </div>
+
+            <div class="display">
+                <div class="clock">
+                    <p class="time" id="time-display">00:00</p>
+                    <p class="status" id="timer-status">Wähle eine Zeit, um zu starten.</p>
+                </div>
+            </div>
+
+            <div class="footer-row">
+                <button class="reset-button" id="reset-button">Zurücksetzen</button>
+                <a class="home-link" href="index.html">Home</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        © 2026 Hansilaris Web App
+    </footer>
+</div>
+
+<script>
+    const buttons = document.querySelectorAll('.timer-button');
+    const display = document.getElementById('time-display');
+    const status = document.getElementById('timer-status');
+    const resetButton = document.getElementById('reset-button');
+    let intervalId = null;
+    let remainingSeconds = 0;
+
+    function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+        const secs = (seconds % 60).toString().padStart(2, '0');
+        return `${mins}:${secs}`;
+    }
+
+    function updateDisplay() {
+        display.textContent = formatTime(remainingSeconds);
+        if (remainingSeconds <= 0) {
+            status.textContent = 'Zeit abgelaufen!';
+            clearInterval(intervalId);
+            intervalId = null;
+            return;
+        }
+        status.textContent = `Verbleibende Zeit: ${formatTime(remainingSeconds)}`;
+    }
+
+    function startTimer(minutes) {
+        remainingSeconds = minutes * 60;
+        clearInterval(intervalId);
+        buttons.forEach(button => button.classList.remove('active'));
+        document.querySelector(`.timer-button[data-minutes="${minutes}"]`).classList.add('active');
+        status.textContent = `Timer läuft: ${minutes} Minuten`;
+        updateDisplay();
+        intervalId = setInterval(() => {
+            remainingSeconds -= 1;
+            updateDisplay();
+        }, 1000);
+    }
+
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            const minutes = parseInt(button.dataset.minutes, 10);
+            startTimer(minutes);
+        });
+    });
+
+    resetButton.addEventListener('click', () => {
+        clearInterval(intervalId);
+        intervalId = null;
+        remainingSeconds = 0;
+        display.textContent = '00:00';
+        status.textContent = 'Wähle eine Zeit, um zu starten.';
+        buttons.forEach(button => button.classList.remove('active'));
+    });
+</script>
+</body>
+</html>
